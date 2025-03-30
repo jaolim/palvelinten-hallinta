@@ -162,6 +162,10 @@ $ sudo salt-call --local sys.state_doc
 
 Asensin Debianin virtuaalikoneeseen ongelmitta raportin alussa listatuilla spekseillä.
 
+![Machine information](/h1/h1_a01.png)
+
+*Koneen tiedot*
+
 ## b) Asenna Salt (salt-minion) Linuxille (uuteen virtuaalikoneeseesi)
 
 Koska salttia ei löydy suoraan apt-get paketinhallinnasta, pitää tämä paketti lisätä sinne manuaalisesti.
