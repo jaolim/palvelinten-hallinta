@@ -241,7 +241,7 @@ Päätin käyttää salttia TLDR:n asentamiseen. TLDR(Too long, didn't read) tar
 ![tldr should exist](/h1/h1_c02.png)
 
 - ```$ sudo salt-call``` - Ajetaan salt käsky
-- ```--local``` - Ajetaan lokaalista
+- ```--local``` - Ajetaan lokaalisti
 - ```-l info``` - Log level ja määritys tasoksi info
 - ```state.single``` - Tarkastellaan yhtä tilaa
 - ```pkg.installed``` - Ohjelman tulee olla asennettuna
@@ -249,11 +249,11 @@ Päätin käyttää salttia TLDR:n asentamiseen. TLDR(Too long, didn't read) tar
 
 ![tldr salt](/h1/h1_c03.png)
 
-*Edellisen kuvan login loppu ja saltin tldr sivu*
+*Edellisen kuvan login loppu ja saltin tldr sivu.*
 
 ![tldr does exist](/h1/h1_c04.png)
 
-Sama komento uudelleenajettuna meni läpi onnistuneesti, muttei asentanut tldr:ää uudestaan, koska se oli jo asennettuna.
+*Sama komento uudelleenajettuna meni läpi onnistuneesti, muttei asentanut tldr:ää uudestaan, koska se oli jo asennettuna.*
 
 ### file
 
@@ -265,12 +265,12 @@ Tämän jälkeen varmistin että tiedosto löytyy oikealla sisällöllä.
 - ```contents="be"``` - Tiedoston tulee sisältää teksti be
 - ```$ cat toBe.txt``` - Tulosta toBe.txt tiedoston sisältö
 
-Ajoin vielä luontokomennon uudestaan, jonka jälkeen poistin tiedoston.
+Ajoin vielä luontikomennon uudestaan, jonka jälkeen poistin tiedoston.
 
 ![File is](/h1/h1_c06.png)
 
 - Tiedosto löytyy ja on oikeassa tilassa
-- ```file.absent``` - Tiedostoa ei tulisi olla, ja tiedosto poistetaan
+- ```file.absent``` - Tiedostoa ei tulisi olla ja tiedosto poistetaan
 
 ### service
 
@@ -280,7 +280,8 @@ Asensin alkuun Apache2:n komennolla ```$ sudo apt-get install apache2``` ja tote
 
 - ```$ sudo salt-call --local state.single service.running apache2 enable=True``` - Varmistin vielä käynnistykomennon toimivuuden
 
-![dead](/h1/h1/c08.png)
+![dead](/h1/h1_c08.png)
+
 *Tapoin palvelun ja varmistin tämän selaimella*
 
 ### user
@@ -311,7 +312,7 @@ Päätin luoda tiedoston *~/Desktop/h1/test.txt* komennolla ```sudo salt-call --
 
 *Ensimmäinen yritys päätyi virheeseen, koska komentoa ajetaan roottina, joten ~ ei ohjaa oikeaan kotihakemistoon*
 
-![fixed path](/h1/h1/c13.png)
+![fixed path](/h1/h1_c13.png)
 
 *Kirjoitettuani koko polun komento toimi, koska hakemisto löytyi*
 
