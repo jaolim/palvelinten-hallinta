@@ -180,7 +180,7 @@ Noudatin tässä [saltproject.io:n ohjeita](https://docs.saltproject.io/salt/ins
 
 ![Version check](/h1/h1_a03.png)
 
-- Kohderepositorion määritys aptille
+- Version tarkistus asennuksen onnistumisen varmistamiseksi
 
 **Ajankäyttö:** 19 minuuttia, josta noin puolet meni raportin kirjoittamiseen.
 
