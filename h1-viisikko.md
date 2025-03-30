@@ -194,7 +194,7 @@ sudo systemctl enable salt-api && sudo systemctl start salt-api
 ```
 
 
-## Asenna Debian 12-Bookworm virtuaalikoneeseen
+## a) Asenna Debian 12-Bookworm virtuaalikoneeseen
 
 *Poikkeuksellisesti tätä alakohtaa ei tarvitse raportoida, jos siinä ei ole mitään ongelmia. Mutta jos on ongelmia, sitten täsmällinen raportti, jotta voidaan ratkoa niitä yhdessä.*
 
