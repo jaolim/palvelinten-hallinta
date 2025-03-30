@@ -168,17 +168,17 @@ Koska salttia ei löydy suoraan apt-get paketinhallinnasta, pitää tämä paket
 
 Noudatin tässä [saltproject.io:n ohjeita](https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/linux-deb.html) ja asennuksen jälkeen varmistin toimivuuden.
 
-![Keyrings directory & key download](/h1/h1_a01.png)
+![Keyrings directory & key download](/h1/h1_b01.png)
 
 - ```$ mkdir...``` - Keyrings hakemiston luonti
 - ```$ curl...``` - Avaimen lataus
 
-![Apt repo target configuration & install](/h1/h1_a02.png)
+![Apt repo target configuration & install](/h1/h1_b02.png)
 
 - ```$ curl... ``` - Kohderepositorion määritys aptille
 - ```$ sudo apt-get...``` - Asennus
 
-![Version check](/h1/h1_a03.png)
+![Version check](/h1/h1_b03.png)
 
 - Version tarkistus asennuksen onnistumisen varmistamiseksi
 
