@@ -164,7 +164,7 @@ Asensin Debianin virtuaalikoneeseen ongelmitta raportin alussa listatuilla speks
 
 ![Machine information](/h1/h1_a01.png)
 
-*Koneen tiedot*
+*Koneen tiedot, joista ID:t on piilotettu.*
 
 ## b) Asenna Salt (salt-minion) Linuxille (uuteen virtuaalikoneeseesi)
 
@@ -265,7 +265,7 @@ Tämän jälkeen lisäsin käyttäjän *testaaja*.
 
 ### cmd
 
-Cmd komento ajaa komentoja. Tämä ei ota lähtökohteisesti kantaa tilaan ennen komennon ajamista, joten käyttäjän täytyy pitää itse houli, että niin tehdään.
+Cmd.run komento ajaa komentoja. Tämä ei ota lähtökohteisesti kantaa tilaan ennen komennon ajamista, joten käyttäjän täytyy pitää itse houli, että niin tehdään.
 
 Päätin luoda tiedoston *~/Desktop/h1/test.txt* komennolla ```sudo salt-call --local state.single cmd.run 'touch ~/Desktop/h1/test.txt'```
 
@@ -277,18 +277,37 @@ Päätin luoda tiedoston *~/Desktop/h1/test.txt* komennolla ```sudo salt-call --
 
 *Kirjoitettuani koko polun komento toimi, koska hakemisto löytyi*
 
-**Ajankäyttö:** 1h 20min
+**Ajankäyttö:** 1 tunti ja 20 minuuttia.
 
 ## d) Idempotentti
 
 *Anna esimerkki idempotenssista. Aja 'salt-call --local' komentoja, analysoi tulokset, selitä miten idempotenssi ilmenee.*
 
-Idempotenttinen komento tekee muutoksia vain, järjestelmä ei ole jo valmiiksi halutussa tilassa. Aikaisemmassa tehtävässä osoitin tätä ajamalla osan komennoista jo toivotussa tilassa, ja tulosteista ilmeni, ettei mitään tarvinnut tehdä.
+Idempotenttinen komento tekee muutoksia vain, jos järjestelmä ei ole jo valmiiksi halutussa tilassa. Aikaisemmassa tehtävässä osoitin tätä ajamalla osan komennoista jo toivotussa tilassa, ja tulosteista ilmeni, ettei mitään tarvinnut tehdä.
 
 Cmd kohdan esimerkkini taas on sellainen, joka toistaa komennon aina ajaettaessa, ja jätinkin sen korjaamisen idempotenttiseksi tätä osuutta varten.
 
+![not working](/h1/h1_d01.png)
 
+*Ajoin vielä edellisen komennon todentaakseni, ettei tämä ole idempotentti.*
 
+Tämän jälkeen korjasin idempotenssin lisäämällä *creates* säännön korjaaman tämän.
+
+![working](/h1/h1_d01.png)
+
+- ```creates="/home/janne/Desktop/h1/test.txt"``` - Katsoo onko tiedosto olemassa ja ajaa komennon ainoastaan, jos näin ei ole.
+
+Koska cmd:ssä joutuu idempotenssin toteuttamaan itse, on parempi käyttää komentoja, joissa se on hoidetta valmiiksi, ja turvautua cmd:iin ainoastaan, kun muilla keinoin ei komentoa saa ratkaistua.
+
+![working but why](/h1/h1_d02.png)
+
+```sudo salt-call --local state.single cmd.run 'echo Hello World!' creates="/home/janne/Desktop/h1/test2.txt"```
+
+Muokattu versio komennosta tulostaa "Hello World!" *stdouttiin*, jos määriteltyä tiedostoa ei ole olemassa.
+
+Tämä on periaatteessa idempotentti, mutta sen toiminnallisuus melko järjetöntä, ja se toimii lähinnä esimerkkinä siitä, että idempotenssilla on arvoa ainoastaan jos se on määritelty mielekkäästi.
+
+**Ajankäyttö:** 25 minuuttia.
 ## Lähteet
 
 ### Tehtävänanto
