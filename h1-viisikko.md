@@ -50,7 +50,7 @@ Salt on ohjelma, jolla yksi mestaritietokone(master) voi kontrolloida useita orj
 master$ sudo apt-get -y install salt-master
 ```
 
-- Masteri tarvitsee 4505/tcp ja 4506/tcp portit auki.
+- Mestari tarvitsee 4505/tcp ja 4506/tcp portit auki.
 
 **Orjan asennus**
 
