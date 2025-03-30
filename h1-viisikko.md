@@ -156,6 +156,44 @@ $ sudo salt-call --local -l info state.single cmd.run 'touch /tmp/foo' creates="
 $ sudo salt-call --local sys.state_doc
 ```
 
+### WMWare Inc. [Salt Install Guide: Linux (DEB)](https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/linux-deb.html)
+
+Saltin asemtamiseksi Debianiin tarvitaan seuraavat askeleeet: 
+
+- 1. Repositorion rekisteröiminen paketinhallintaan
+
+```
+# Ensure keyrings dir exists
+mkdir -p /etc/apt/keyrings
+# Download public key
+curl -fsSL https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public | sudo tee /etc/apt/keyrings/salt-archive-keyring.pgp
+# Create apt repo target configuration
+curl -fsSL https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources | sudo tee /etc/apt/sources.list.d/salt.sources
+```
+- 2. Metadatan päivitys
+
+```sudo apt update```
+
+- 3. Komponenttien asennus
+
+```
+sudo apt-get install salt-master
+sudo apt-get install salt-minion
+sudo apt-get install salt-ssh
+sudo apt-get install salt-syndic
+sudo apt-get install salt-cloud
+sudo apt-get install salt-api
+```
+
+- 4. Palveluiden käynnistys
+```
+sudo systemctl enable salt-master && sudo systemctl start salt-master
+sudo systemctl enable salt-minion && sudo systemctl start salt-minion
+sudo systemctl enable salt-syndic && sudo systemctl start salt-syndic
+sudo systemctl enable salt-api && sudo systemctl start salt-api
+```
+
+
 ## Asenna Debian 12-Bookworm virtuaalikoneeseen
 
 *Poikkeuksellisesti tätä alakohtaa ei tarvitse raportoida, jos siinä ei ole mitään ongelmia. Mutta jos on ongelmia, sitten täsmällinen raportti, jotta voidaan ratkoa niitä yhdessä.*
@@ -321,6 +359,8 @@ Karvinen, T. 2006. [Raportin Kirjoittaminen](https://terokarvinen.com/2006/06/04
 Karvinen, T. 2018. [Salt Quickstart - Salt Stack Master and Slave on Ubuntu Linux](https://terokarvinen.com/2018/03/28/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/)
 
 Karvinen, T. 2023. [Run Salt Command Locally](https://terokarvinen.com/2021/salt-run-command-locally/)
+
+WMWare Inc. [Salt Install Guide: Linux (DEB)](https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/linux-deb.html)
 
 ### Tiedonhaku
 
