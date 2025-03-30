@@ -88,9 +88,7 @@ $ sudo apt-get -y install salt-minion
 $ sudo salt-call --version
 ```
 
-**pkg.installed**
-
-*Ohjelman tulee olla installoitu*
+**pkg.installed** - *Ohjelman tulee olla installoitu*
 
 ```
 $ sudo salt-call --local -l info state.single pkg.installed tree
@@ -102,9 +100,7 @@ $ sudo salt-call --local -l info state.single pkg.removed tree
 
 - Asentaa ohjelman, jos tämä ei ole asennettuna
 
-**file.managed**
-
-*Tiedoston tulee olla olemassa*
+**file.managed** - *Tiedoston tulee olla olemassa*
 
 ```
 $ sudo salt-call --local -l info state.single file.managed /tmp/hellotero
@@ -118,9 +114,7 @@ $ sudo salt-call --local -l info state.single file.absent /tmp/hellotero
 
 - Luo tiedoston, jos tiedostoa ei ole olemassa
 
-**service.running**
-
-*Demonin tulee olla käynnissä*
+**service.running** - *Demonin tulee olla käynnissä*
 
 ```
 $ sudo salt-call --local -l info state.single service.running apache2 enable=True
@@ -132,9 +126,7 @@ $ sudo salt-call --local -l info state.single service.dead apache2 enable=False
 
 - Käynnistää demonin, jos demoni ei ole käynnissä
 
-**user.present**
-
-*Käyttäjän tulee olla olemassa*
+**user.present** - *Käyttäjän tulee olla olemassa*
 
 ```
 $ sudo salt-call --local -l info state.single user.present terote08
@@ -146,9 +138,7 @@ $ sudo salt-call --local -l info state.single user.absent terote08
 
 - Luo käyttäjän, jos käyttäjää ei ole olemassa
 
-**cmd.run**
-
-*Aja komento*
+**cmd.run** - *Aja komento*
 
 ```
 $ sudo salt-call --local -l info state.single cmd.run 'touch /tmp/foo' creates="/tmp/foo"
@@ -180,19 +170,19 @@ Noudatin tässä [saltproject.io:n ohjeita](https://docs.saltproject.io/salt/ins
 
 ![Keyrings directory & key download](/h1/h1_a01.png)
 
-- ```$ mkdir...``` *Keyrings hakemiston luonti*
-- ```$ curl...``` *Avaimen lataus*
+- ```$ mkdir...``` - Keyrings hakemiston luonti
+- ```$ curl...``` - Avaimen lataus
 
 ![Apt repo target configuration & install](/h1/h1_a02.png)
 
-- ```$ curl... ``` *Kohderepositorion määritys aptille*
-- ```$ sudo apt-get...``` *Asennus*
+- ```$ curl... ``` - Kohderepositorion määritys aptille
+- ```$ sudo apt-get...``` - Asennus
 
 ![Version check](/h1/h1_a03.png)
 
-*Kohderepositorion määritys aptille*
+- Kohderepositorion määritys aptille
 
-**Ajankäyttö: ** 19 minuuttia, josta noin puolet meni raportin kirjoittamiseen.
+**Ajankäyttö:** 19 minuuttia, josta noin puolet meni raportin kirjoittamiseen.
 
 ## c) Viisi tärkeintä
 
@@ -218,6 +208,8 @@ Karvinen, T. 2006. [Raportin Kirjoittaminen](https://terokarvinen.com/2006/06/04
 Karvinen, T. 2018. [Salt Quickstart - Salt Stack Master and Slave on Ubuntu Linux](https://terokarvinen.com/2018/03/28/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/)
 
 Karvinen, T. 2023. [Run Salt Command Locally](https://terokarvinen.com/2021/salt-run-command-locally/)
+
+### Tiedonhaku
 
 Saltproject.io. [salt-call dokumentaatio.](https://docs.saltproject.io/en/3006/ref/cli/salt-call.html)
 
