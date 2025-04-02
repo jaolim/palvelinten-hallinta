@@ -334,7 +334,7 @@ Tämän jälkeen korjasin idempotenssin lisäämällä *creates* säännön korj
 
 ![working](/h1/h1_d03.png)
 
-(**Päivitys 02.04.2025:** Oikea kuva lisätty, alun perin oli edellisen kohdan kuva tässäkin kohdassa. Komenta ajettu uudestaan kuvaa varten, koska alkuperäinen oikea kuva puutui.)
+(**Päivitys 02.04.2025:** Oikea kuva lisätty, alun perin oli edellisen kohdan kuva tässäkin kohdassa. Komenta ajettu uudestaan kuvaa varten, koska alkuperäinen oikea kuva puuttui.)
 
 - ```creates="/home/janne/Desktop/h1/test.txt"``` - Katsoo onko tiedosto olemassa ja ajaa komennon ainoastaan, jos näin ei ole.
 
