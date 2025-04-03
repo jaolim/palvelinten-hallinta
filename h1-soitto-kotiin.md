@@ -1,5 +1,25 @@
 # h2 Soitto kotiin
 
+## Ympäristö
+
+### Rauta
+
+- **Käyttöjärjestelmä:** Windows 11 Education 23H2 64-bit
+
+- **CPU:** AMD Ryzen 9 3900XT 12-Core 3.80GHz
+
+- **RAM:** 32GB
+
+- **Kiintolevy:** 2TB Samsung M.2 SSD
+
+- **GPU:** Nvidia GeForce RTX 3080
+
+### Virtuaali
+
+- **Virtualisointi:** Oracle VirtualBox 7.1.6
+
+- **Käyttöjärjestelmä:** Debian 12 64-bit
+
 ## x) Lue ja tiivistä
 
 ### Karvinen 2021: [Two Machine Virtual Network With Debian 11 Bullseye and Vagrant](https://terokarvinen.com/2021/two-machine-virtual-network-with-debian-11-bullseye-and-vagrant/)
@@ -19,16 +39,16 @@ Asennus Vagrantille on alustakohtainen. Linuxille se löytyy suoraan apt-get pak
 **vagrantfile - tärkeimmät kohdat**
 
 ```
-Vagrant.configure("2") do |config| # ("2") - koneiden määrä
-	config.vm.box = "debian/bookworm64" # virtualisoitava käyttöjärjestelmä
+Vagrant.configure("2") do |config| # ("2") - API versio
+  config.vm.box = "debian/bookworm64" # virtualisoitava käyttöjärjestelmä
 	
-	config.vm.define "t001" do |t001| #määriteltävä virtuaalikone
-		t001.vm.hostname = "t001" #virtuaalikoneen hostname
-	end
+  config.vm.define "t001" do |t001| # määriteltävä virtuaalikone
+    t001.vm.hostname = "t001" # virtuaalikoneen hostname
+  end
 	
-	config.vm.define "t002" do |t002|
-	t002.vm.hostname = "t002"
-	end
+  config.vm.define "t002" do |t002| # toinen virtuaalikone
+  t002.vm.hostname = "t002"
+  end
 end
 
 ```
@@ -86,14 +106,78 @@ Nyt masteri voi antaa orjalleen/orjilleen salt komentoja.
 
 (*vain kohdat: Infra as Code - Your wishes as a text file, top.sls - What Slave Runs What States*)
 
+#### Infra as Code
+
+Salt komentoja voi määritellä tiedostoihin käyttäen [YAML-syntaksia](https://yaml.org/) syntaksia.
+
+```
+$ sudo mkdir -p /srv/salt/hello
+$ sudoedit /srv/salt/hello/init.sls
+```
+
+```
+$ cat /srv/salt/hello/init.sls
+/tmp/infra-as-code:
+  file.managed
+
+$ sudo salt '*' state.apply hello
+```
+
+#### top.sls
+
+Top tiedosto määrittää mikä tavoitetila milläkin orjalla on.
+
+```
+$ sudo salt '*' state.apply hello^C
+$ sudoedit /srv/salt/top.sls
+$ cat /srv/salt/top.sls
+base:
+  '*':
+    - hello
+```
+
+```$ sudo salt '*' state.apply```
+
 ## a) Hello Vagrant!
 
 *Osoita jollain komennolla, että Vagrant on asennettu (esim tulostaa vagrantin versionumeron). Jos et ole vielä asentanut niitä, raportoi myös Vagrant ja VirtualBox asennukset. (Jos Vagrant ja VirtualBox on jo asennettu, niiden asennusta ei tarvitse tehdä eikä raportoida uudelleen.)*
+
+Olin jo asentanut Vagrantin Windows ympäristöön ongelmitta.
+
+![Vagrant version](/h2/h2_a01.png)
 
 ## b) Linux Vagrant
 
 *Tee Vagrantilla uusi Linux-virtuaalikone.*
 
+Aloitin tekemällä hakemiston virtuaalikoneilleni ja luomalla sinne *vagrantfilen* käyttäen komentoa ```vagrant init```.
+
+![Vagrant initialization](/h2/h2_01.png)
+
+Tämän jälkeen poistin turhat kommentit ja lisäsin luotavan koneen tiedot *vagrantfileen*.
+
+```
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/bookworm64"
+
+  config.vm.define "master" do |master|
+    master.vm.hostname = "master"
+  end
+
+end
+```
+*Vagrantfilen sisältö*
+
+Ajoin ```vagrant up``` komennon, ja kun kone oli luotu otin siihen ssh yhteyden komennolla ```vagrant ssh master``` ja kokeilin nettiyhteyden pingaamalla googlen DNS palveinta.
+
+![Vagrant VM install](/h2/h2_03.png)
+
+*Asennus huomautti epäturvallisesta avaimesta ja vaihtoi avainparin, mutta tämä on odettua käyttäytymistä ensimmäisellä kirjautumisella, koska vagrant käyttää julkisesti saatavilla olevaa avainta voidakseen kirjautua ensimmäistä kertaa, jonka jälkeen vaihtaa sen automaattisesti.*
+
+*Asennus huomautti myös vanhasta guest editions versiosta.*
+
+**Ajankäyttö:** 23 minuuttia.
+ 
 ## c) Kaksin kaunihimpi
 
 *Tee kahden Linux-tietokoneen verkko Vagrantilla. Osoita, että koneet voivat pingata toisiaan.*
@@ -106,3 +190,28 @@ Nyt masteri voi antaa orjalleen/orjilleen salt komentoja.
 
 *(viisikosta: pkg, file, service, user, cmd)*
 
+## Lähteet
+
+#### Tehtävä
+
+Karvinen, T. 2025. [h2 Soitto kotiin](https://terokarvinen.com/palvelinten-hallinta/#h2-soitto-kotiin).
+
+#### Lyhennettävät
+
+Karvinen 2021: [Two Machine Virtual Network With Debian 11 Bullseye and Vagrant](https://terokarvinen.com/2021/two-machine-virtual-network-with-debian-11-bullseye-and-vagrant/)
+
+Karvinen 2018: [Salt Quickstart – Salt Stack Master and Slave on Ubuntu Linux](https://terokarvinen.com/2018/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/?fromSearch=salt%20quickstart%20salt%20stack%20master%20and%20slave%20on%20ubuntu%20linux)
+
+Karvinen 2023: [Salt Vagrant - automatically provision one master and two slaves](https://terokarvinen.com/2023/salt-vagrant/#infra-as-code---your-wishes-as-a-text-file)
+
+#### Tiedonhaku
+
+Github.com/hashicorp. [Vagrant insecure key detected](https://github.com/hashicorp/packer/issues/3293).
+
+Saltproject.io. [Salt install Linux Debian](https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/linux-deb.html)
+
+Yaml.org. https://yaml.org/
+
+### Lisenssi
+
+Sivun sisältöä saa levittää GPL-3.0 lisenssin sallimin ehdoin: https://github.com/jaolim/palvelinten-hallinta/tree/main?tab=GPL-3.0-1-ov-file
