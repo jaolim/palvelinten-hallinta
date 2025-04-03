@@ -205,7 +205,7 @@ end
 
 *Päivitetty vagrantfile.*
 
-Ajoin ```vagrant up``` komennon ja asennuksen jälkeen otin molempiin koneisiin yhteydet ```vagrant ssh master``` ja ````slave001``` komennoilla.
+Ajoin ```vagrant up``` komennon ja asennuksen jälkeen otin molempiin koneisiin yhteydet ```vagrant ssh master``` ja ```slave001``` komennoilla.
 
 Pingasin molemmilta koneilta toisiaan varmistaakseni yhteyden toimivuuden.
 
