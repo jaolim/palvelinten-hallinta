@@ -18,6 +18,8 @@
 
 - **Virtualisointi:** Oracle VirtualBox 7.1.6
 
+- **Automatisointi:** Vagrant 2.4.3
+
 - **Käyttöjärjestelmä:** Debian 12 64-bit
 
 ## x) Lue ja tiivistä
@@ -31,7 +33,7 @@ Vagrant on työkalu virtuaaliympäristöjen asentamisen automatisointiin.
 Ympäristöjen asetukset konffataan *vagrantfile* tiedoston kautta ja komento ```$ vagrant up``` käynnistää siinä määritellyt virtuaalikoneet kun se ajetaan samassa kansiossa.
 
 **Komentoja**
-- ```$ vagrant ssh hostname``` - Ottaa yhteyden tietyyn virtuaalikoneeseen (hostname = virtuaalikoneelle määritelty hostname).
+- ```$ vagrant ssh hostname``` - Ottaa yhteyden tiettyyn virtuaalikoneeseen (hostname = virtuaalikoneelle määritelty hostname).
 - ```$ vagrant destroy``` - Tuhoaa kaikki virtuaalikoneet ja niiden tiedostot.
 
 Asennus Vagrantille on alustakohtainen. Linuxille se löytyy suoraan apt-get paketinhallinnsta komennolla ```$ sudo apt-get install vagrant``` ja Windows tai Mac ympäristössä asennus tapahtuu [hashicorpin sivuilta ladattavan binäärin kautta](https://developer.hashicorp.com/vagrant/install).
@@ -172,7 +174,7 @@ Ajoin ```vagrant up``` komennon, ja kun kone oli luotu otin siihen ssh yhteyden 
 
 ![Vagrant VM install](/h2/h2_b03.png)
 
-*Asennus huomautti epäturvallisesta avaimesta ja vaihtoi avainparin, mutta tämä on odettua käyttäytymistä ensimmäisellä kirjautumisella, koska vagrant käyttää julkisesti saatavilla olevaa avainta voidakseen kirjautua ensimmäistä kertaa, jonka jälkeen vaihtaa sen automaattisesti.*
+*Asennus huomautti epäturvallisesta avaimesta ja vaihtoi avainparin, mutta tämä on odotettua käyttäytymistä ensimmäisellä kirjautumisella, koska vagrant käyttää julkisesti saatavilla olevaa avainta voidakseen kirjautua ensimmäistä kertaa, jonka jälkeen vaihtaa sen automaattisesti.*
 
 *Asennus huomautti myös vanhasta guest editions versiosta.*
 
@@ -182,7 +184,7 @@ Ajoin ```vagrant up``` komennon, ja kun kone oli luotu otin siihen ssh yhteyden 
 
 *Tee kahden Linux-tietokoneen verkko Vagrantilla. Osoita, että koneet voivat pingata toisiaan.*
 
-Tuhosin edellisen tehtävän virtuaalikoneen komennolla ```vagrant destroy -f``` ja muokkasin vagrantfileä luomaan 2 konetta, joissa ip-osoitteet oli määritelty.
+Tuhosin edellisen tehtävän virtuaalikoneen komennolla ```vagrant destroy -f``` ja muokkasin vagrantfileä luomaan 2 konetta, joissa IP-osoitteet oli määritelty.
 
 ```
 Vagrant.configure("2") do |config|
@@ -211,7 +213,10 @@ Pingasin molemmilta koneilta toisiaan varmistaakseni yhteyden toimivuuden.
 
 **Ajankäyttö:** 17 minuuttia.
 
-## Herra-orja verkossa
+## d) Herra-orja verkossa
+
+*Demonstroi Salt herra-orja arkkitehtuurin toimintaa kahden Linux-koneen verkossa, jonka teit Vagrantilla. Asenna toiselle koneelle salt-master, toiselle salt-minion. Laita orjan /etc/salt/minion -tiedostoon masterin osoite. Hyväksy avain ja osoita, että herra voi komentaa orjakonetta.*
+
 
 Rekisteröin salt repositorion luotettavaksi lähteeksi molempiin koneisiin käyttäen [saltproject.io:n ohjeita](https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/linux-deb.html).
 
@@ -232,45 +237,78 @@ Määrittelin orjalle mestarin editoimalla minion tiedostoa ```sudoedit /etc/sal
 ````
 master: 192.168.2.1
 id: slave001
-
 ```
 
 Tämän jälkeen käynnistin orjapalvelun uudestaan ```$ sudo systemctl restart salt-minion.service```.
 
 Kokeilin hyväksyä orja-avaimen mestarina, mutta huomasin, ettei avainpyyntö orjalta ollut mennyt läpi
 
-![No key request](/h2/h2_c02.png)
+![No key request](/h2/h2_d01.png)
 
 Varmistin ensin *salt-minion* palvelun olevan käynnissä lokaalisti ajetulla salt komennoolla.
 
-![Minion is running](/h2/h2_c03.png)
+![Minion is running](/h2/h2_d02.png)
 
 Tämän jälkeen kokeilin uudestaan IP-osoitteen pingaamista ja tämän onnistuttua lähdin hakemaan ongelmaa googlesta.
 
-Ratkaisua tätä kautta ei suoraan löytynyt, mutta [saltprojektin dokumentaatiota selatessa] tuli vastaan maininta YAML:sta, jonka perusteella keksin tarkistaa config tiedoston sisennykset.
+Ratkaisua tätä kautta ei suoraan löytynyt, mutta [saltprojektin dokumentaatiota selatessa](https://docs.saltproject.io/salt/install-guide/en/latest/topics/configure-master-minion.html#configure-master-minion) tuli vastaan maininta YAML:sta, jonka perusteella keksin tarkistaa config tiedoston sisennykset.
 
-Päivitin tiedoston seuraavaan muutoon:
-````
+Päivitin tiedoston seuraavaan muotoon:
+
+```
   master: 192.168.2.1
   id: slave001
-
 ```
 
 Tämän jälkeen ajoin *restart* komennon uudestaan ja hyväksyin onnistuneesti lähteneen avainpyynnön *master* koneen puolelta.
 
-![Key accepted](/h2/h2_c04.png)
+![Key accepted](/h2/h2_d03.png)
 
-Varmistin vielä orjan vastaavan komentohin.
+Varmistin vielä orjan vastaavan komentoihin.
 
-![Answer](/h2/h2_c05.png)
+![Answer](/h2/h2_d04.png)
 
 **Ajankäyttö:** 52 minuuttia.
-
-*Demonstroi Salt herra-orja arkkitehtuurin toimintaa kahden Linux-koneen verkossa, jonka teit Vagrantilla. Asenna toiselle koneelle salt-master, toiselle salt-minion. Laita orjan /etc/salt/minion -tiedostoon masterin osoite. Hyväksy avain ja osoita, että herra voi komentaa orjakonetta.*
 
 ## e) Kokeile vähintään kahta tilaa verkon yli
 
 *(viisikosta: pkg, file, service, user, cmd)*
+
+Käskin tiedoston *exist* olla olemassa *file.managed* komentoa käyttäen ja varmistin tämän olevan totta orjakoneen terminaalista.
+
+Tämän jälkeen ajoin saman komennon uudestaan varmistaen idempotenssin, jonka jälkeen kerroin, ettei tiedostoa tulisi olla *file.absent* käskyllä.
+
+![file commands](/h2/h2_e01.png)
+
+Seuraavaksi päätin määritellä tiedostoon tilan, joka installoi ja käynnistää apachen, jos sitä ei ole asennettuna tai se ei ole käynnissä.
+
+Tähän löytyi suoraan ohje [ansible-cn.readthedocs.io sivuilta](https://ansible-cn.readthedocs.io/en/stable/topics/tutorials/starting_states.html), josta piti ainoastaan muuttaa apache muotoon apache2.
+
+![Define and apply state](/h2/h2_e02.png)
+
+*init.sls sisältö*
+
+```
+apache2:
+  pkg.installed: []
+  service.running:
+    - require:
+      - pkg: apache2
+```
+
+![Changes](/h2/h2_e03.png)
+
+*Huomionarvoista on, ettei käynnistystä tarvinnut tehdä, koska apache2 käynnistyy oletusarvoisesti asennuksen yhteydessä.*
+
+Ajoin vielä *apply.staten* kertaalleen todentaakseni, ettei muutoksia tarvinnut tehdä.
+
+![No changes](/h2/h2_e04.png)
+
+Varmistin vielä apachen oletussivun toimivan käskemällä orjaa ajamaan *curl* komennon localhostiin.
+
+![curl results](/h2/h2_e05.png)
+
+**Ajankäyttö:** 51 minuuttia
 
 ## Lähteet
 
@@ -287,6 +325,8 @@ Karvinen 2018: [Salt Quickstart – Salt Stack Master and Slave on Ubuntu Linux]
 Karvinen 2023: [Salt Vagrant - automatically provision one master and two slaves](https://terokarvinen.com/2023/salt-vagrant/#infra-as-code---your-wishes-as-a-text-file)
 
 #### Tiedonhaku
+
+Ansible-cn.readthedocs.io. [Tutorial - Starting States](https://ansible-cn.readthedocs.io/en/stable/topics/tutorials/starting_states.html)
 
 Github.com/hashicorp. [Vagrant insecure key detected](https://github.com/hashicorp/packer/issues/3293).
 
