@@ -250,7 +250,7 @@ Varmistin ensin *salt-minion* palvelun olevan käynnissä lokaalisti ajetulla sa
 
 ![Minion is running](/h2/h2_d02.png)
 
-Tämän jälkeen kokeilin uudestaan IP-osoitteen pingaamista ja tämän onnistuttua lähdin hakemaan ongelmaa googlesta.
+Tämän jälkeen kokeilin uudestaan IP-osoitteen pingaamista ja tämän onnistuttua lähdin hakemaan ratkaisua googlesta.
 
 Ratkaisua tätä kautta ei suoraan löytynyt, mutta [saltprojektin dokumentaatiota selatessa](https://docs.saltproject.io/salt/install-guide/en/latest/topics/configure-master-minion.html#configure-master-minion) tuli vastaan maininta YAML:sta, jonka perusteella keksin tarkistaa config tiedoston sisennykset.
 
