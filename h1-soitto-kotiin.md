@@ -38,6 +38,50 @@ Jo tämä on toimiva versio *vagrantfilestä*, mutta monet paikat, kuten IP-osoi
 
 *(Huomaa: Nykyisin ennen Saltin asentamista on asennettava ensin varasto [package repository], ohje h1 vinkeissä)*
 
+Voidakseen asentaa saltin linuxiin täytyy ensin rekisteröidä sen paketin varasto luotetuksi lähteeksi. [Saltproject.io:n ohjeet tähän](https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/linux-deb.html).
+
+Saltin komentorakenne koostuu mestarikoneesta, joka antaa ohjeita orjakoneille. Orjan täytyy tietää, missä mestari on ja mestarin täytyy hyväksyä orja-avain orjalta.
+
+**Mestarin asennus**
+
+```
+master$ sudo apt-get update
+master$ sudo apt-get -y install salt-master
+master$ hostname -I
+10.0.0.88
+```
+
+**Orjan asennus ja konfaus**
+
+```
+slave$ sudo apt-get update
+slave$ sudo apt-get -y install salt-minion
+
+slave$ sudoedit /etc/salt/minion
+
+master: 10.0.0.88
+id: tero
+```
+
+**Avaimen hyväksyntä**
+
+```
+master$ sudo salt-key -A
+Unaccepted Keys:
+tero
+Proceed? [n/Y]
+Key for minion tero accepted.
+```
+
+**Testaus**
+```
+master$ sudo salt '*' cmd.run 'whoami'
+tero:
+ root
+```
+
+Nyt masteri voi antaa orjalleen/orjilleen salt komentoja.
+
 ### Karvinen 2023: [Salt Vagrant - automatically provision one master and two slaves](https://terokarvinen.com/2023/salt-vagrant/#infra-as-code---your-wishes-as-a-text-file)
 
 (*vain kohdat: Infra as Code - Your wishes as a text file, top.sls - What Slave Runs What States*)
