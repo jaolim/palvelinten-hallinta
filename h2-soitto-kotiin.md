@@ -36,7 +36,7 @@ Ympäristöjen asetukset konffataan *vagrantfile* tiedoston kautta ja komento ``
 - ```$ vagrant ssh hostname``` - Ottaa yhteyden tiettyyn virtuaalikoneeseen (hostname = virtuaalikoneelle määritelty hostname).
 - ```$ vagrant destroy``` - Tuhoaa kaikki virtuaalikoneet ja niiden tiedostot.
 
-Asennus Vagrantille on alustakohtainen. Linuxille se löytyy suoraan apt-get paketinhallinnsta komennolla ```$ sudo apt-get install vagrant``` ja Windows tai Mac ympäristössä asennus tapahtuu [hashicorpin sivuilta ladattavan binäärin kautta](https://developer.hashicorp.com/vagrant/install).
+Asennus Vagrantille on alustakohtainen. Linuxille se löytyy suoraan apt-get paketinhallinnasta komennolla ```$ sudo apt-get install vagrant``` ja Windows tai Mac ympäristössä asennus tapahtuu [hashicorpin sivuilta ladattavan binäärin kautta](https://developer.hashicorp.com/vagrant/install).
 
 **vagrantfile - tärkeimmät kohdat**
 
@@ -110,7 +110,7 @@ Nyt masteri voi antaa orjalleen/orjilleen salt komentoja.
 
 #### Infra as Code
 
-Salt komentoja voi määritellä tiedostoihin käyttäen [YAML-syntaksia](https://yaml.org/).
+Salt tiloja voi määritellä tiedostoihin käyttäen [YAML-syntaksia](https://yaml.org/), jonka jälkeen tila voidaan käskea toteuttamaan.
 
 ```
 $ sudo mkdir -p /srv/salt/hello
@@ -205,11 +205,11 @@ end
 
 *Päivitetty vagrantfile.*
 
-Ajoin ````vagrant up``` komennon ja asennuksen jälkeen otin molempiin koneisiin yhteydet ```vagrant ssh master``` ja ````slave001``` komennoilla.
+Ajoin ```vagrant up``` komennon ja asennuksen jälkeen otin molempiin koneisiin yhteydet ```vagrant ssh master``` ja ````slave001``` komennoilla.
 
 Pingasin molemmilta koneilta toisiaan varmistaakseni yhteyden toimivuuden.
 
-[Ping](/h2/h2_c01.png)
+![Ping](/h2/h2_c01.png)
 
 **Ajankäyttö:** 17 minuuttia.
 
@@ -228,13 +228,14 @@ $ curl -fsSL https://packages.broadcom.com/artifactory/api/security/keypair/Salt
 $ curl -fsSL https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources | sudo tee /etc/apt/sources.list.d/salt.sources
 ```
 
-Tämän jälkeen asensin *master* koneeseen *salt-masterin* ja *slave001* koneeseen *salt minionin*.
+Tämän jälkeen asensin *master* koneeseen *salt-masterin* ja *slave001* koneeseen *salt-minionin*.
 
 - ```sudo apt-get install salt-master```
 - ```sudo apt-get install salt-minion```
 
 Määrittelin orjalle mestarin editoimalla minion tiedostoa ```sudoedit /etc/salt/minion``` lisäämällä sinne seuraavat rivit:
-````
+
+```
 master: 192.168.2.1
 id: slave001
 ```
