@@ -287,7 +287,7 @@ Tähän löytyi suoraan ohje [ansible-cn.readthedocs.io sivuilta](https://ansibl
 
 ![Define and apply state](/h2/h2_e02.png)
 
-*init.sls sisältö*
+init.sls sisältö:
 
 ```
 apache2:
