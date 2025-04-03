@@ -28,7 +28,7 @@
 
 Vagrant on työkalu virtuaaliympäristöjen asentamisen automatisointiin.
 
-Ympäristöjen asetukset konffataan *vagrantfile* tiedoston kautta ja komento ```$ vagrant up``` käynnistää siinä määritellyt virutaalikoneet kun se ajetaan samassa kansiossa.
+Ympäristöjen asetukset konffataan *vagrantfile* tiedoston kautta ja komento ```$ vagrant up``` käynnistää siinä määritellyt virtuaalikoneet kun se ajetaan samassa kansiossa.
 
 **Komentoja**
 - ```$ vagrant ssh hostname``` - Ottaa yhteyden tietyyn virtuaalikoneeseen (hostname = virtuaalikoneelle määritelty hostname).
@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config| # ("2") - API versio
 end
 
 ```
-Jo tämä on toimiva versio *vagrantfilestä*, mutta monet paikat, kuten IP-osoitteet määriteltäviksi oletusarvoilla. Alkuperäisestä artikkelista löytyy kattavampi versio.
+Jo tämä on toimiva versio *vagrantfilestä*, mutta monet paikat, kuten IP-osoitteet jäävät määriteltäviksi oletusarvoilla. Alkuperäisestä artikkelista löytyy kattavampi versio.
 
 ### Karvinen 2018: [Salt Quickstart – Salt Stack Master and Slave on Ubuntu Linux](https://terokarvinen.com/2018/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/?fromSearch=salt%20quickstart%20salt%20stack%20master%20and%20slave%20on%20ubuntu%20linux)
 
@@ -71,7 +71,7 @@ master$ hostname -I
 10.0.0.88
 ```
 
-**Orjan asennus ja konfaus**
+**Orjan asennus ja konffaus**
 
 ```
 slave$ sudo apt-get update
@@ -108,7 +108,7 @@ Nyt masteri voi antaa orjalleen/orjilleen salt komentoja.
 
 #### Infra as Code
 
-Salt komentoja voi määritellä tiedostoihin käyttäen [YAML-syntaksia](https://yaml.org/) syntaksia.
+Salt komentoja voi määritellä tiedostoihin käyttäen [YAML-syntaksia](https://yaml.org/).
 
 ```
 $ sudo mkdir -p /srv/salt/hello
@@ -152,7 +152,7 @@ Olin jo asentanut Vagrantin Windows ympäristöön ongelmitta.
 
 Aloitin tekemällä hakemiston virtuaalikoneilleni ja luomalla sinne *vagrantfilen* käyttäen komentoa ```vagrant init```.
 
-![Vagrant initialization](/h2/h2_01.png)
+![Vagrant initialization](/h2/h2_b01.png)
 
 Tämän jälkeen poistin turhat kommentit ja lisäsin luotavan koneen tiedot *vagrantfileen*.
 
@@ -168,9 +168,9 @@ end
 ```
 *Vagrantfilen sisältö*
 
-Ajoin ```vagrant up``` komennon, ja kun kone oli luotu otin siihen ssh yhteyden komennolla ```vagrant ssh master``` ja kokeilin nettiyhteyden pingaamalla googlen DNS palveinta.
+Ajoin ```vagrant up``` komennon, ja kun kone oli luotu otin siihen ssh yhteyden komennolla ```vagrant ssh master``` ja kokeilin nettiyhteyden pingaamalla googlen DNS palvelinta.
 
-![Vagrant VM install](/h2/h2_03.png)
+![Vagrant VM install](/h2/h2_b03.png)
 
 *Asennus huomautti epäturvallisesta avaimesta ja vaihtoi avainparin, mutta tämä on odettua käyttäytymistä ensimmäisellä kirjautumisella, koska vagrant käyttää julkisesti saatavilla olevaa avainta voidakseen kirjautua ensimmäistä kertaa, jonka jälkeen vaihtaa sen automaattisesti.*
 
@@ -182,7 +182,89 @@ Ajoin ```vagrant up``` komennon, ja kun kone oli luotu otin siihen ssh yhteyden 
 
 *Tee kahden Linux-tietokoneen verkko Vagrantilla. Osoita, että koneet voivat pingata toisiaan.*
 
+Tuhosin edellisen tehtävän virtuaalikoneen komennolla ```vagrant destroy -f``` ja muokkasin vagrantfileä luomaan 2 konetta, joissa ip-osoitteet oli määritelty.
+
+```
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/bookworm64"
+
+  config.vm.define "master" do |master|
+    master.vm.hostname = "master"
+	master.vm.network "private_network", ip: "192.168.2.1"
+  end
+  
+  config.vm.define "slave001" do |slave001|
+    slave001.vm.hostname = "slave001"
+	slave001.vm.network "private_network", ip: "192.168.2.2"
+  end
+
+end
+```
+
+*Päivitetty vagrantfile.*
+
+Ajoin ````vagrant up``` komennon ja asennuksen jälkeen otin molempiin koneisiin yhteydet ```vagrant ssh master``` ja ````slave001``` komennoilla.
+
+Pingasin molemmilta koneilta toisiaan varmistaakseni yhteyden toimivuuden.
+
+[Ping](/h2/h2_c01.png)
+
+**Ajankäyttö:** 17 minuuttia.
+
 ## Herra-orja verkossa
+
+Rekisteröin salt repositorion luotettavaksi lähteeksi molempiin koneisiin käyttäen [saltproject.io:n ohjeita](https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/linux-deb.html).
+
+```
+$ sudo apt-get update
+$ sudo apt-get install curl
+$ mkdir -p /etc/apt/keyrings
+$ curl -fsSL https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public | sudo tee /etc/apt/keyrings/salt-archive-keyring.pgp
+$ curl -fsSL https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources | sudo tee /etc/apt/sources.list.d/salt.sources
+```
+
+Tämän jälkeen asensin *master* koneeseen *salt-masterin* ja *slave001* koneeseen *salt minionin*.
+
+- ```sudo apt-get install salt-master```
+- ```sudo apt-get install salt-minion```
+
+Määrittelin orjalle mestarin editoimalla minion tiedostoa ```sudoedit /etc/salt/minion``` lisäämällä sinne seuraavat rivit:
+````
+master: 192.168.2.1
+id: slave001
+
+```
+
+Tämän jälkeen käynnistin orjapalvelun uudestaan ```$ sudo systemctl restart salt-minion.service```.
+
+Kokeilin hyväksyä orja-avaimen mestarina, mutta huomasin, ettei avainpyyntö orjalta ollut mennyt läpi
+
+![No key request](/h2/h2_c02.png)
+
+Varmistin ensin *salt-minion* palvelun olevan käynnissä lokaalisti ajetulla salt komennoolla.
+
+![Minion is running](/h2/h2_c03.png)
+
+Tämän jälkeen kokeilin uudestaan IP-osoitteen pingaamista ja tämän onnistuttua lähdin hakemaan ongelmaa googlesta.
+
+Ratkaisua tätä kautta ei suoraan löytynyt, mutta [saltprojektin dokumentaatiota selatessa] tuli vastaan maininta YAML:sta, jonka perusteella keksin tarkistaa config tiedoston sisennykset.
+
+Päivitin tiedoston seuraavaan muutoon:
+````
+  master: 192.168.2.1
+  id: slave001
+
+```
+
+Tämän jälkeen ajoin *restart* komennon uudestaan ja hyväksyin onnistuneesti lähteneen avainpyynnön *master* koneen puolelta.
+
+![Key accepted](/h2/h2_c04.png)
+
+Varmistin vielä orjan vastaavan komentohin.
+
+![Answer](/h2/h2_c05.png)
+
+**Ajankäyttö:** 52 minuuttia.
 
 *Demonstroi Salt herra-orja arkkitehtuurin toimintaa kahden Linux-koneen verkossa, jonka teit Vagrantilla. Asenna toiselle koneelle salt-master, toiselle salt-minion. Laita orjan /etc/salt/minion -tiedostoon masterin osoite. Hyväksy avain ja osoita, että herra voi komentaa orjakonetta.*
 
