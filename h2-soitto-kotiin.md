@@ -254,7 +254,7 @@ Tämän jälkeen kokeilin uudestaan IP-osoitteen pingaamista ja tämän onnistut
 
 Ratkaisua tätä kautta ei suoraan löytynyt, mutta [saltprojektin dokumentaatiota selatessa](https://docs.saltproject.io/salt/install-guide/en/latest/topics/configure-master-minion.html#configure-master-minion) tuli vastaan maininta YAML:sta, jonka perusteella keksin tarkistaa config tiedoston sisennykset.
 
-Päivitin tiedoston seuraavaan muotoon:
+Päivitin tiedostoon lisätyt rivit seuraavaan muotoon:
 
 ```
   master: 192.168.2.1
@@ -305,7 +305,7 @@ Ajoin vielä *apply.staten* kertaalleen todentaakseni, ettei muutoksia tarvinnut
 
 ![No changes](/h2/h2_e04.png)
 
-Varmistin vielä apachen oletussivun toimivan käskemällä orjaa ajamaan *curl* komennon localhostiin.
+Varmistin vielä apachen oletussivun toimivan käskemällä orjaa ajamaan *curl* komennon *localhostiin*.
 
 ![curl results](/h2/h2_e05.png)
 
