@@ -271,6 +271,93 @@ Varmistin vielä orjan vastaavan komentoihin.
 
 **Ajankäyttö:** 52 minuuttia.
 
+### Päivitys 09.04.2025
+
+Tehtävässä koneiden välisen yhteyden korjannut askel ei ilmeisesti korjannut mitään, ja yhteys korjaantui muusta, sattumanvaraisesta syystä. Tehtävää tehdessä korjaus tuntuikin omituiselta, mutten silloin miettinyt asiaa enempää kunnes joku palautteista mainitsi samasta asiasta.
+
+Päädyin lähtemään selvittämään ongelman syitä, mutta tein tämän pienissä pätkissä muiden useiden päivien aikana, joten en kirjoittanut reaaliaikaisesti raporttia, vaan tämä on ongelman ratkaisun jälkeen kirjoitettu tiivistelmä selvityksen vaiheista.
+
+Itse tehtävää tehdessä pidin ensimmäisen yhteysongelman ilmetessä tauon, jolloin olin pois koneelta noin tunnin ajan virtuaalikoneiden ollessa käynnissä, ja oletan, että tämä jostain syystä korjasi yhteyden, eikä muokattu orjakonfiguraatio.
+Varmaa syytä yhteyden korjautumiselle tehtävässä en tiedä.
+
+**Vianselvitys**
+
+- Tuhosin ja uudelleenloin virtuaalikoneet ja varmistin yhteysongelman tapahtuvan uudestaan.
+- Varmistin *tcpdumpilla* pingien vastaanottamisen```sudo apt-get install tcpdump``` & ```sudo tcpdump -i eth1 icmp```.
+- Kuuntelin *tcpdumpilla* oikeaa verkkokorttia ja varmistin, että orja yrittää ottaa yhteyttä uudelleenkäynnistettäessä ```sudo tcpdump -i eth1```.
+-- Johtopäätös: orja yrittää ottaa yhteyttä ja tämä saapuu perille, mutta yhteydenotto hylätään jostain syystä.
+- Varmistin MAC osoitteen päivittyvän oikein ARP tableen: ```cat /proc/net/arp```.
+-- Toinen kone tulee näkyviin pingin tai muun yhteydenoton jälkeen.
+
+Tässä kohtaan päätin kokeilla aktivoida VirtualBoxin Promiscuous moden virtuaalikoneille. Tämän aktivoinnin ja uudelleenkäynnistyksen jälkeen yhteys toimi.
+
+Promiscuous mode antaa virtuaalikoneen vastaanottaa muiden koneidem MAC osoitteisiin lähetettyjä paketteja, joten en tiedä miksei yhteys toiminut ilman sitä.
+
+Automatisoin vielä promiscuous moden aktivoinnin ja eri pakettien asennukset vagrantilla ja testasin toimintaa.
+Koneet nousivat VirtualBoxin mukaan promiscuous mode päällä, mutta yhteysongelma oli edelleen ja sen korjaaminen vaati koneiden uudelleen käynnistyksen.
+
+Nyt koneet siis toimivat kun ajetaan:
+
+```
+vagrant up
+vegrant reload
+```
+
+**Päivitetyt tiedostot**
+
+Vagrantfile:
+
+```
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/bookworm64"
+  
+
+  config.vm.define "master" do |master|
+    master.vm.hostname = "master"
+    master.vm.network "private_network", ip: "192.168.2.10"
+	config.vm.provider "virtualbox" do |vb|
+		vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+	end
+	master.vm.provision "shell", path: "provision/master.sh"
+  end
+  
+  config.vm.define "slave001" do |slave001|
+    slave001.vm.hostname = "slave001"
+    slave001.vm.network "private_network", ip: "192.168.2.11"
+	config.vm.provider "virtualbox" do |vb|
+		vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+	end
+	slave001.vm.provision "shell", path: "provision/slave.sh"
+  end
+  
+end
+```
+
+master.sh:
+
+```
+sudo apt-get install curl -y
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public | sudo tee /etc/apt/keyrings/salt-archive-keyring.pgp
+curl -fsSL https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources | sudo tee /etc/apt/sources.list.d/salt.sources
+sudo apt-get update
+sudo apt-get install salt-master -y
+```
+
+slave.sh:
+
+```
+sudo apt-get install curl -y
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public | sudo tee /etc/apt/keyrings/salt-archive-keyring.pgp
+curl -fsSL https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources | sudo tee /etc/apt/sources.list.d/salt.sources
+sudo apt-get update
+sudo apt-get install salt-minion -y
+echo "master: 192.168.2.10" | sudo tee -a /etc/salt/minion
+sudo systemctl restart salt-minion
+```
+
+
 ## e) Kokeile vähintään kahta tilaa verkon yli
 
 *(viisikosta: pkg, file, service, user, cmd)*
