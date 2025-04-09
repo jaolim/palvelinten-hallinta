@@ -288,6 +288,8 @@ Varmaa syytä yhteyden korjautumiselle tehtävässä en tiedä.
 	- Johtopäätös: orja yrittää ottaa yhteyttä ja tämä saapuu perille, mutta yhteydenotto hylätään jostain syystä.
 - Varmistin MAC osoitteen päivittyvän oikein ARP tableen: ```cat /proc/net/arp```.
 	- Toinen kone tulee näkyviin pingin tai muun yhteydenoton jälkeen.
+	
+**Ratkaisu**
 
 Tässä kohtaan päätin kokeilla aktivoida VirtualBoxin Promiscuous moden virtuaalikoneille. Tämän aktivoinnin ja uudelleenkäynnistyksen jälkeen yhteys toimi.
 
