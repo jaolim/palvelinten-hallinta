@@ -291,7 +291,7 @@ Varmaa syytä yhteyden korjautumiselle tehtävässä en tiedä.
 
 Tässä kohtaan päätin kokeilla aktivoida VirtualBoxin Promiscuous moden virtuaalikoneille. Tämän aktivoinnin ja uudelleenkäynnistyksen jälkeen yhteys toimi.
 
-Promiscuous mode antaa virtuaalikoneen vastaanottaa muiden koneidem MAC osoitteisiin lähetettyjä paketteja, joten en tiedä miksei yhteys toiminut ilman sitä.
+Promiscuous mode antaa virtuaalikoneen vastaanottaa muiden koneiden MAC osoitteisiin lähetettyjä paketteja, joten en tiedä miksei yhteys toiminut ilman sitä.
 
 Automatisoin vielä promiscuous moden aktivoinnin ja eri pakettien asennukset vagrantilla ja testasin toimintaa.
 Koneet nousivat VirtualBoxin mukaan promiscuous mode päällä, mutta yhteysongelma oli edelleen ja sen korjaaminen vaati koneiden uudelleen käynnistyksen.
