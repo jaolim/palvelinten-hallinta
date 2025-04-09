@@ -275,7 +275,7 @@ Varmistin vielä orjan vastaavan komentoihin.
 
 Tehtävässä koneiden välisen yhteyden korjannut askel ei ilmeisesti korjannut mitään, ja yhteys korjaantui muusta, sattumanvaraisesta syystä. Tehtävää tehdessä korjaus tuntuikin omituiselta, mutten silloin miettinyt asiaa enempää kunnes joku palautteista mainitsi samasta asiasta.
 
-Päädyin lähtemään selvittämään ongelman syitä, mutta tein tämän pienissä pätkissä muiden useiden päivien aikana, joten en kirjoittanut reaaliaikaisesti raporttia, vaan tämä on ongelman ratkaisun jälkeen kirjoitettu tiivistelmä selvityksen vaiheista.
+Päädyin lähtemään selvittämään ongelman syitä, mutta tein tämän pienissä pätkissä useiden päivien aikana, joten en kirjoittanut reaaliaikaisesti raporttia, vaan tämä on ongelman ratkaisun jälkeen kirjoitettu tiivistelmä selvityksen vaiheista.
 
 Itse tehtävää tehdessä pidin ensimmäisen yhteysongelman ilmetessä tauon, jolloin olin pois koneelta noin tunnin ajan virtuaalikoneiden ollessa käynnissä, ja oletan, että tämä jostain syystä korjasi yhteyden, eikä muokattu orjakonfiguraatio.
 Varmaa syytä yhteyden korjautumiselle tehtävässä en tiedä.
@@ -285,9 +285,9 @@ Varmaa syytä yhteyden korjautumiselle tehtävässä en tiedä.
 - Tuhosin ja uudelleenloin virtuaalikoneet ja varmistin yhteysongelman tapahtuvan uudestaan.
 - Varmistin *tcpdumpilla* pingien vastaanottamisen```sudo apt-get install tcpdump``` & ```sudo tcpdump -i eth1 icmp```.
 - Kuuntelin *tcpdumpilla* oikeaa verkkokorttia ja varmistin, että orja yrittää ottaa yhteyttä uudelleenkäynnistettäessä ```sudo tcpdump -i eth1```.
--- Johtopäätös: orja yrittää ottaa yhteyttä ja tämä saapuu perille, mutta yhteydenotto hylätään jostain syystä.
+	- Johtopäätös: orja yrittää ottaa yhteyttä ja tämä saapuu perille, mutta yhteydenotto hylätään jostain syystä.
 - Varmistin MAC osoitteen päivittyvän oikein ARP tableen: ```cat /proc/net/arp```.
--- Toinen kone tulee näkyviin pingin tai muun yhteydenoton jälkeen.
+	- Toinen kone tulee näkyviin pingin tai muun yhteydenoton jälkeen.
 
 Tässä kohtaan päätin kokeilla aktivoida VirtualBoxin Promiscuous moden virtuaalikoneille. Tämän aktivoinnin ja uudelleenkäynnistyksen jälkeen yhteys toimi.
 
