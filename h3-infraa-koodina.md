@@ -179,7 +179,7 @@ Varmistin vielä tiedoston löytyvän *slave001:ltä* käskemällä sitä ajamaa
 
 ![Hello exists](/h3/h3_b02.png)
 
-**Ajankäyttö:** 4 minuuttia
+**Ajankäyttö:** 6 minuuttia
 
 ## c) Laajempi custom tila
 
