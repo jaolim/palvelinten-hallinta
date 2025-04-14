@@ -181,7 +181,7 @@ Varmistin vielä tiedoston löytyvän *slave001:ltä* käskemällä sitä ajamaa
 
 **Ajankäyttö:** 4 minuuttia
 
-## c) Laajempi custum tila
+## c) Laajempi custom tila
 
 *Tee sls-tiedosto, joka käyttää vähintään kahta eri tilafunktiota näistä: package, file, service, user. Tarkista eri ohjelmalla, että lopputulos on oikea. Osoita useammalla ajolla, että sls-tiedostosi on idempotentti.*
 
