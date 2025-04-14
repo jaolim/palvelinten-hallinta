@@ -161,7 +161,7 @@ Varmistin orja-avain pyyntöjen tulleen *master* koneelle ja hyväksyin ne.
 
 Määrittelin *hello* moduulin luomalla sille kansion polkuun ```/srv/salt/hello/``` ja luomalla sinne *init.sls* tiedoston, jossa määrittelin missä *hello* tiedoston tulee olla.
 
-Tämän jälkeen ajoin tilan lokaalisti ````sudo salt-call --local state.apply hello``` komennolla ja varmistin tiedoston löytyvän
+Tämän jälkeen ajoin tilan lokaalisti ```sudo salt-call --local state.apply hello``` komennolla ja varmistin tiedoston löytyvän.
 
 ![Hello local](/h3/h3_a01.png)
 
@@ -169,7 +169,7 @@ Tämän jälkeen ajoin tilan lokaalisti ````sudo salt-call --local state.apply h
 
 ## b) Aja esimerkki sls-tiedostosi verkon yli orjalla.
 
-Ajoin *hellon* ensin orjalla *slave002* komennolla ```sudo salt slave002 state.apply hello```, jonka jälkeen ajoin sen kaikilla orjilla komennolla ```sudo salt '*' state.apply hello```
+Ajoin *hellon* ensin orjalla *slave002* komennolla ```sudo salt slave002 state.apply hello```, jonka jälkeen ajoin sen kaikilla orjilla komennolla ```sudo salt '*' state.apply hello```.
 
 ![Hello slave](/h3/h3_b01.png)
 
@@ -181,7 +181,7 @@ Varmistin vielä tiedoston löytyvän *slave001:ltä* käskemällä sitä ajamaa
 
 **Ajankäyttö:** 4 minuuttia
 
-## c) Laajennettu ls-tiedosto
+## c) Laajempi custum tila
 
 *Tee sls-tiedosto, joka käyttää vähintään kahta eri tilafunktiota näistä: package, file, service, user. Tarkista eri ohjelmalla, että lopputulos on oikea. Osoita useammalla ajolla, että sls-tiedostosi on idempotentti.*
 
