@@ -141,8 +141,8 @@ lounas:
   juoma: vesi
   ruokalajit:
     - pihvi
-	- perunat
-	- salaatti
+    - perunat
+    - salaatti
 ```
 
 #### Lists and dictionaries - YAML block structures
