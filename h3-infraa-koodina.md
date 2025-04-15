@@ -87,9 +87,9 @@ sudo systemctl restart salt-minion
 
 ### Karvinen 2014: [Hello Salt Infra-as-Code](https://terokarvinen.com/2024/hello-salt-infra-as-code/)
 
-Salttiin voi luoda omia tiloja, jotka ajetaan orjille komennolla ```sudo salt '*' state.apply tilamNimi```.
+Salttiin voi luoda omia tiloja, jotka ajetaan orjille komennolla ```sudo salt '*' state.apply tilanNimi```.
 
-Moduulit tallennetaan polkuun ```/srv/salt/tilamNimi/``` ja niiden sisältö määritellään tiedostoon ```/srv/salt/tilamNimi/init.sls```.
+Moduulit tallennetaan polkuun ```/srv/salt/tilanNimi/``` ja niiden sisältö määritellään tiedostoon ```/srv/salt/tilanNimi/init.sls```.
 
 Määrittelyssä käytetään [YAML syntaksia](https://docs.saltproject.io/salt/user-guide/en/latest/topics/overview.html#rules-of-yaml).
 
