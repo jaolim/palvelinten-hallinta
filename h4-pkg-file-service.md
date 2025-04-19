@@ -81,7 +81,7 @@ sudo systemctl restart salt-minion
 
 ### Karvinen 2018: [Pkg-File-Service – Control Daemons with Salt – Change SSH Server Port](https://terokarvinen.com/2018/04/03/pkg-file-service-control-daemons-with-salt-change-ssh-server-port/?fromSearch=karvinen%20salt%20ssh)
 
-Linuxissa demonien asetukset konfiguraatiotiedostoissa, joten niiden hallintaa haluaa automatisoida, tarvitaan master koneelle pohjatiedosto, jonka muuttuessa myös orjakoneiden tiedostoja muutetaan.
+Linuxissa demonien asetukset määritellään konfiguraatiotiedostoissa, joten jos niiden hallintaa haluaa automatisoida, tarvitaan master koneelle pohjatiedosto, jonka muuttuessa myös orjakoneiden tiedostoja muutetaan.
 
 SSHd:n kohdalla tämä tiedosto on ```/etc/ssh/sshd_config```, ja jotta demoni tiedetään käynnistää uudelleen tiedoston muuttuessa, pitää salt komentaa myös tarkkailemaan tätä tiedostoa.
 
@@ -173,7 +173,7 @@ port 22
 port 55555
 ```
 
-Varmistin, tämän jälkeen, ettei orja jo kuuntele määriteltyä porttia.
+Varmistin vielä, ettei orja jo kuuntele määriteltyä porttia.
 
 ![Connection refused](/h4/h4_b01.png)
 
@@ -398,6 +398,8 @@ Nyt komento toimi onnistuneesti.
 Varmistin vielä sivun muuttuneen ajamalla ```sudo salt '*' state.single cmd.run 'curl localhost'```.
 
 ![Confirmed to work](/h4/h4_c07.png)
+
+Tässä kohtaan pitäisi vielä korjata ```/home/vagrant/public/html/index``` polun ja tiedoston käyttäjäoikedut, mutta tehtävän oltua odotettua työläämpi päätin jättää sen tähän.
 
 **Ajankäyttö:** 2 tuntia 13 minuuttia.
 
