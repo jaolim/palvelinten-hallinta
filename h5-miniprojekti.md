@@ -31,6 +31,7 @@ Lähtösuunnitelmani on toteuttaa tila kaikille orjakoneille, joka varmistaa adm
 Ympäristöön käytän vagranttia ja kahta *vagrant upin* yhteydessä ajattavaa skriptiä saltin asentamiseksi master ja orjakoneille.
 
 En kirjoittanut raporttia suoraan tehdässä, vaan ainoastaan jokaisen onnistuneen vaiheen jälkeen, joten tämä raportti sisältää vain toimivat kokonaisuudet vaiheittain ja lopussa viimeisimmän version päivitettynä.
+Koodin etenemistä voi seurata projektirepon commit historiasta.
 
 Vaiheista riippumatta asennusprosessi käyttämässäni vagrant ympäristössä on sama:
 
