@@ -125,7 +125,7 @@ sudo cp -a ./top.sls /srv/salt/top.sls
 
 - generoi ssh avaimanen
 - tekee saltille kansion
-- kopipoi ssh avaimen ja admin sekä web tilat
+- kopioi ssh avaimen ja admin sekä web tilat
 
 **/srv/salt/admin/init.sls:**
 
@@ -158,7 +158,7 @@ sshkey:
 - admin ryhmä on olemassa
 - control käyttäjä on olemassa
  - control kuuluu ryhmään admin ja sudo
- - controllilla on tietty salasana (uuden hashon voi generoida lokaalisti ajamalla ```sudo salt-call --local shadow.gen_password 'your password'```)
+ - controllilla on tietty salasana (uuden hashatyn salasanan voi generoida lokaalisti ajamalla ```sudo salt-call --local shadow.gen_password 'your password'```)
 - ssh tunnistus on olemassa käyttäen lähdetiedoston avainta
 
 ### Vaihe 2: Ajettavat moduulit minionin nimen mukaan ja web moduuli
@@ -282,7 +282,7 @@ ufw allow 443/tcp:
 
 Olin jo web tilaa työstäessä kokeillut oletussivun poistoa, mutta ongelma tuli vastaan apachen ehdollisessa uudelleenkäynnistämisessä, joten jätin sen myöhemmälle.
 
-Päädyin ratkaisemaan tämän laittamalla dissite ja restart komennat ajettaksi peräkkäin, ja tämän ajettavaksi vain jos 000-default.conf löytyy /etc/apache2/sites-enabled kansiosta.
+Päädyin ratkaisemaan tämän laittamalla *a2dissite* ja *restart* komennat ajettaksi peräkkäin, ja tämän ajettavaksi vain jos *000-default.conf* löytyy */etc/apache2/sites-enabled* kansiosta.
 
 ```
 ...
@@ -293,7 +293,8 @@ a2dissite 000-default.conf && systemctl restart apache2:
 ```
 
 ### Lopullinen versio:
-*Listaan admin ja web init.sls tiedostot, muita tiedostoja ei ole muokattu edellisestä. *
+
+*Listaan admin ja web init.sls tiedostot, muita tiedostoja ei ole muokattu edellisestä.*
 
 /srv/salt/admin/init.sls:
 
@@ -408,11 +409,11 @@ Ennen kuvakaappauksia ajoin komennot ```vagrant up``` ja ```vagrant reload```.
 
 - Webminion01: tilat otettu käyttöön
 
-![Minion01 second](/5/h5_a03.png)
+![Minion01 second](/h5/h5_a03.png)
 
 - Minion01: tilat ovat jo käytössä
 
-![Webminion01 first](/h5/h5_a04.png)
+![Webminion01 second](/h5/h5_a05.png)
 
 - Webminion01: tilat ovat jo käytössä
 
@@ -420,7 +421,7 @@ Ennen kuvakaappauksia ajoin komennot ```vagrant up``` ja ```vagrant reload```.
 
 Varmistin vielä webminonin weppisivun toimivan ja minion01 ssh-yhteyden onnistuvan master koneelta.
 
-![Manual check](/h5/h5_a05.png)
+![Manual check](/h5/h5_a06.png)
 
 - ```curl 192.168.2.11``` - weppiminon tarjoilee oikean sivun
 - ```ssh control@192.168.2.12``` - avain toimii kirjautumiseen
