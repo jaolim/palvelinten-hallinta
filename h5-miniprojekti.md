@@ -48,8 +48,6 @@ sudo salt '*' state.apply
 
 ### Vaihe 1: vagrant ympäristö, ssh tunnistautuminen ja control käyttäjä
 
-*SSH-kirjautuminen masterilta minion koneille*
-
 **Vagrantfile:**
 
 ```
