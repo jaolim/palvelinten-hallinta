@@ -426,6 +426,23 @@ Varmistin vielä webminonin weppisivun toimivan ja minion01 ssh-yhteyden onnistu
 - ```ssh control@192.168.2.12``` - avain toimii kirjautumiseen
 - ```sudo ufw status``` - control on sudokäyttäjä, hashattynä määritelty salasana toimii, ja UFW on oikeassa tilassa
 
+**Päivitys 09.05.2025:**
+
+Huomasin UFW:n aktivoinnin aiheuttavan aktiivisten yhteyksien tiputtamisen, jonka takia minion koneet lakkaavat kuuntelemasta masterin porttia.
+Koska virtualbox ympäristössäni esiintyy muutenkin satunnaista yhteysongelmia, olin testasessa kuvitellut katkeamisen johtuvan tästä, ja korjannut asian silloin ajamalla *vagrant reload*.
+
+Lisäsin minion.sh skriptiin rivit hakemaan master koneen yhteyden nopeammin uudestaan, joka kiertää ongelman, jos uutta komentoa ei ajeta 10 sekuntiin UFW:n aktivoinnista (jos se on jo aktiivinen, ongelmaa ei tule).
+
+minion.sh:
+```
+...
+echo "tcp_keepalive: True" | sudo tee -a /etc/salt/minion #workaround for lost connection on ufw enable
+echo "tcp_keepalive_idle: 10" | sudo tee -a /etc/salt/minion #workaround for lost connection on ufw enable
+...
+```
+
+Muutoksia en siis itse moduuleihin tehnyt, ainoastaan salt orjien asennuksen yhteydessä ajettaviin asetuksiin.
+
 ## Lähteet
 
 Tehtävä: 2025. Karvinen, T. [h5 Miniprojekti](https://terokarvinen.com/palvelinten-hallinta/#h5-miniprojekti)
